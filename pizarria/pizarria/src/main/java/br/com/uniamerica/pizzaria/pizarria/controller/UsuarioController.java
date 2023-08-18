@@ -33,15 +33,10 @@ public class UsuarioController {
         return ResponseEntity.ok(this.usuarioRepository.findAll());
     }
 
-//    @GetMapping("/lista/ativo")
-//    public ResponseEntity<?> listaCompletaAtivo(){
-//        return ResponseEntity.ok(this.usuarioRepository.findByAtivoTrue());
-//    }
-
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final UsuarioDTO usuario) {
+    public ResponseEntity<?> cadastrarUsuario (@RequestBody final UsuarioDTO usuario) {
         try {
-//            this.usuarioService.validaUsuario(usuario);
+            this.usuarioService.validaUsuario(usuario);
             return ResponseEntity.ok("Usuario cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -51,9 +46,9 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final UsuarioDTO usuario) {
+    public ResponseEntity<?> editarUsuario (@PathVariable("id") final Long id, @RequestBody final UsuarioEntity usuario) {
         try {
-//            this.usuarioService.editarUsuario(id, usuario);
+            this.usuarioService.editaUsuario(usuario);
             return ResponseEntity.ok("Usuario atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -65,11 +60,9 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(
-            @PathVariable("id") final Long id
-    ) {
+    public ResponseEntity<?> delete(@PathVariable("id") final Long id) {
         try {
-//            this.usuarioService.deletarUsuario(id);
+            this.usuarioService.deletaUsuario(id);
             return ResponseEntity.ok("Usuário excluido com sucesso.");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());

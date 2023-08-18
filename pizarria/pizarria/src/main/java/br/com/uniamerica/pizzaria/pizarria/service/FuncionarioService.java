@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 public class FuncionarioService {
@@ -20,14 +21,20 @@ public class FuncionarioService {
         var funcionario = new FuncionarioEntity();
         BeanUtils.copyProperties(funcionarioDTO,funcionario);
 
+
+        Assert.isTrue(!funcionario.getNomeFuncionario().equals(""), "Nome do funcionário não pode ser nulo");
+        Assert.isTrue(funcionario.getNomeFuncionario().length() <= 100, "Nome excede o limite de caracteres");
+
         this.funcionarioRepository.save(funcionario);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void editaFuncionario (final FuncionarioEntity funcionario){
-        final FuncionarioEntity funcionarioEntity = this.funcionarioRepository.findById(funcionario.getId()).orElse(null);
+    public void editaFuncionario (final FuncionarioEntity funcionarioEntity){
 
-        this.funcionarioRepository.save(funcionario);
+        Assert.isTrue(!funcionarioEntity.getNomeFuncionario().equals(""), "Nome do funcionário não pode ser nulo");
+        Assert.isTrue(funcionarioEntity.getNomeFuncionario().length() <= 100, "Nome excede o limite de caracteres");
+
+        this.funcionarioRepository.save(funcionarioEntity);
     }
 
     @Transactional(rollbackFor = Exception.class)

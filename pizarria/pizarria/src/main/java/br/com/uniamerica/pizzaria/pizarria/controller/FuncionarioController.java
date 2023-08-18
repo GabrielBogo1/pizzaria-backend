@@ -38,7 +38,7 @@ public class FuncionarioController {
 //    }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final FuncionarioDTO funcionarioDTO) {
+    public ResponseEntity<?> cadastrarFuncionario (@RequestBody final FuncionarioDTO funcionarioDTO) {
         try {
             this.funcionarioService.validaFuncionario(funcionarioDTO);
             return ResponseEntity.ok("Funcionario cadastrado com sucesso.");
@@ -50,7 +50,7 @@ public class FuncionarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final FuncionarioEntity funcionario) {
+    public ResponseEntity<?> editarFuncionario (@PathVariable("id") final Long id, @RequestBody final FuncionarioEntity funcionario) {
         try {
             this.funcionarioService.editaFuncionario(funcionario);
             return ResponseEntity.ok("Funcionario atualizado com sucesso. ");
@@ -64,9 +64,7 @@ public class FuncionarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(
-            @PathVariable("id") final Long id
-    ) {
+    public ResponseEntity<?> deletarFuncionario (@PathVariable("id") final Long id) {
         try {
             this.funcionarioService.deletarFuncionario(id);
             return ResponseEntity.ok("Funcionário excluido com sucesso.");

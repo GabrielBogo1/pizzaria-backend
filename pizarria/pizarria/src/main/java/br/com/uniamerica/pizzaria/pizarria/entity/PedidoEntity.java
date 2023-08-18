@@ -19,9 +19,8 @@ public class PedidoEntity {
     private Long id;
 
     @Getter @Setter
-//    @ManyToOne (fetch = FetchType.EAGER)
-//    @JoinColumn (name = "funcionario_id")
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "funcionario")
     private FuncionarioEntity funcionario;
 
     @Getter @Setter
@@ -46,8 +45,9 @@ public class PedidoEntity {
     private boolean delivery;
 
     @Getter @Setter
-    @ManyToOne
-    private PizzaEntity pizza;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "pizza_id")
+    private List<PizzaEntity> pizzas;
 
 
     @Getter @Setter
@@ -55,12 +55,18 @@ public class PedidoEntity {
     private boolean pagamentoCartao;
 
     @Getter @Setter
-    @ManyToOne
-    @JoinColumn(name = "produtos_id")
-    private ProdutosEntity produtos;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "produtos")
+    private List<ProdutosEntity> produtos;
 
     @Getter @Setter
     @Column (name = "dataPedido")
     private LocalDateTime dataPedido;
 
+
+
+    @PrePersist
+    private void prePersist(){
+        this.dataPedido = LocalDateTime.now();
+    }
 }

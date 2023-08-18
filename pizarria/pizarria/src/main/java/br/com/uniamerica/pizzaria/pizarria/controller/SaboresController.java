@@ -33,15 +33,10 @@ public class SaboresController {
         return ResponseEntity.ok(this.saboresRepository.findAll());
     }
 
-//    @GetMapping("/lista/ativo")
-//    public ResponseEntity<?> listaCompletaAtivo(){
-//        return ResponseEntity.ok(this.saboresRepository.findByAtivoTrue());
-//    }
-
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final SaboresDTO sabores) {
         try {
-//            this.saboresService.validaSabores(sabores);
+            this.saboresService.validaSabor(sabores);
             return ResponseEntity.ok("Sabor cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -51,9 +46,9 @@ public class SaboresController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final SaboresDTO sabores) {
+    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final SaboresEntity sabores) {
         try {
-//            this.saboresService.editarSabores(id, sabores);
+            this.saboresService.editaSabor(sabores);
             return ResponseEntity.ok("Sabor atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -69,7 +64,7 @@ public class SaboresController {
             @PathVariable("id") final Long id
     ) {
         try {
-//            this.saboresService.deletarSabores(id);
+            this.saboresService.deletaSabor(id);
             return ResponseEntity.ok("Sabor excluido com sucesso.");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());

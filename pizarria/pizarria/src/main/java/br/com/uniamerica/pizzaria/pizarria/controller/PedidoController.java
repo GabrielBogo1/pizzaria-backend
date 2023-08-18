@@ -32,15 +32,10 @@ public class PedidoController {
         return ResponseEntity.ok(this.pedidoRepository.findAll());
     }
 
-//    @GetMapping("/lista/ativo")
-//    public ResponseEntity<?> listaCompletaAtivo(){
-//        return ResponseEntity.ok(this.pedidoRepository.findByAtivoTrue());
-//    }
-
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final PedidoDTO pedido) {
+    public ResponseEntity<?> cadastrarPedido (@RequestBody final PedidoDTO pedido) {
         try {
-//            this.pedidoService.validaPedido(pedido);
+            this.pedidoService.validaPedido(pedido);
             return ResponseEntity.ok("Pedido realizado com sucesso.");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -50,9 +45,9 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final PedidoDTO pedido) {
+    public ResponseEntity<?> editarPedido (@PathVariable("id") final Long id, @RequestBody final PedidoEntity pedido) {
         try {
-//            this.pedidoService.editarPedido(id, pedido);
+            this.pedidoService.editaPedido(pedido);
             return ResponseEntity.ok("Pedido atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -64,11 +59,9 @@ public class PedidoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(
-            @PathVariable("id") final Long id
-    ) {
+    public ResponseEntity<?> deletarPedido (@PathVariable("id") final Long id) {
         try {
-//            this.pedidoService.deletarPedido(id);
+            this.pedidoService.deletarPedido(id);
             return ResponseEntity.ok("Pedido excluido com sucesso.");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());

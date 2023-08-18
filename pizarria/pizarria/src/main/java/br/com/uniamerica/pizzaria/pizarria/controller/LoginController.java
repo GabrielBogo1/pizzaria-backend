@@ -32,15 +32,10 @@ public class LoginController {
         return ResponseEntity.ok(this.loginRepository.findAll());
     }
 
-//    @GetMapping("/lista/ativo")
-//    public ResponseEntity<?> listaCompletaAtivo(){
-//        return ResponseEntity.ok(this.loginRepository.findByAtivoTrue());
-//    }
-
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final LoginDTO login) {
+    public ResponseEntity<?> cadastrarLogin (@RequestBody final LoginDTO login) {
         try {
-//            this.loginService.validaLogin(login);
+            this.loginService.validaLogin(login);
             return ResponseEntity.ok("Login realizado com sucesso.");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -50,9 +45,9 @@ public class LoginController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final LoginDTO login) {
+    public ResponseEntity<?> editarLogin (@PathVariable("id") final Long id, @RequestBody final Login login) {
         try {
-//            this.loginService.editarLogin(id, login);
+          this.loginService.editaLogin(login);
             return ResponseEntity.ok("Login atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -64,11 +59,9 @@ public class LoginController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(
-            @PathVariable("id") final Long id
-    ) {
+    public ResponseEntity<?> deletarLogin(@PathVariable("id") final Long id) {
         try {
-//            this.loginService.deletarLogin(id);
+            this.loginService.deletaLogin(id);
             return ResponseEntity.ok("Registro excluido com sucesso.");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());

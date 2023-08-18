@@ -3,6 +3,8 @@ package br.com.uniamerica.pizzaria.pizarria.dto;
 import br.com.uniamerica.pizzaria.pizarria.entity.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class PedidoDTO {
     private Long id;
@@ -17,12 +19,11 @@ public class PedidoDTO {
 
     private Status status;
 
-
     private boolean delivery;
 
-    private PizzaEntity pizza;
+    private List<PizzaEntity> pizza;
 
     private boolean pagamentoCartao;
 
-    private ProdutosDTO produtos;
+    private List <ProdutosEntity> produtos;
 }

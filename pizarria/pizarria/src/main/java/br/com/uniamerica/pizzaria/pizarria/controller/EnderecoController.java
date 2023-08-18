@@ -1,43 +1,42 @@
 package br.com.uniamerica.pizzaria.pizarria.controller;
 
-import br.com.uniamerica.pizzaria.pizarria.dto.PizzaDTO;
-import br.com.uniamerica.pizzaria.pizarria.entity.PizzaEntity;
-import br.com.uniamerica.pizzaria.pizarria.repository.PizzaRepository;
-import br.com.uniamerica.pizzaria.pizarria.service.PizzaService;
+import br.com.uniamerica.pizzaria.pizarria.dto.EnderecoDTO;
+import br.com.uniamerica.pizzaria.pizarria.entity.Endereco;
+import br.com.uniamerica.pizzaria.pizarria.repository.EnderecoRepository;
+import br.com.uniamerica.pizzaria.pizarria.service.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/pizza")
-public class PizzaController {
+@RequestMapping(value = "/api/endereco")
+public class EnderecoController {
 
     @Autowired
-    private PizzaRepository pizzaRepository;
+    private EnderecoRepository enderecoRepository;
 
     @Autowired
-    private PizzaService pizzaService;
+    private EnderecoService enderecoService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
-        final PizzaEntity pizza = this.pizzaRepository.findById(id).orElse(null);
-        return pizza == null
-                ? ResponseEntity.badRequest().body("Nenhuma pizza encontrada para o ID = " + id + ".")
-                : ResponseEntity.ok(pizza);
+        final Endereco endereco = this.enderecoRepository.findById(id).orElse(null);
+        return endereco == null
+                ? ResponseEntity.badRequest().body("Nenhum endereco encontrado para o ID = " + id + ".")
+                : ResponseEntity.ok(endereco);
     }
 
     @GetMapping("/lista")
     public ResponseEntity<?> listaCompleta() {
-        return ResponseEntity.ok(this.pizzaRepository.findAll());
+        return ResponseEntity.ok(this.enderecoRepository.findAll());
     }
 
-
     @PostMapping
-    public ResponseEntity<?> cadastrarPizza (@RequestBody final PizzaDTO pizza) {
+    public ResponseEntity<?> cadastraEndereco (@RequestBody final EnderecoDTO enderecoDTO) {
         try {
-            this.pizzaService.validaPizza(pizza);
-            return ResponseEntity.ok("Pizza cadastrada com sucesso.");
+            this.enderecoService.validaEndereco(enderecoDTO);
+            return ResponseEntity.ok("Endereco cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         } catch (Exception e) {
@@ -46,10 +45,10 @@ public class PizzaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editarPizza (@PathVariable("id") final Long id, @RequestBody final PizzaEntity pizza) {
+    public ResponseEntity<?> editarEndereco (@PathVariable("id") final Long id, @RequestBody final Endereco endereco) {
         try {
-            this.pizzaService.editaPizza(pizza);
-            return ResponseEntity.ok("Pizza atualizada com sucesso. ");
+            this.enderecoService.editaEndereco(endereco);
+            return ResponseEntity.ok("Endereco atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         } catch (RuntimeException e) {
@@ -60,10 +59,10 @@ public class PizzaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarPizza (@PathVariable("id") final Long id) {
+    public ResponseEntity<?> deletaEndereco (@PathVariable("id") final Long id) {
         try {
-            this.pizzaService.deletaPizza(id);
-            return ResponseEntity.ok("Pizza excluida com sucesso.");
+            this.enderecoService.deletaEndereco(id);
+            return ResponseEntity.ok("Endereco excluido com sucesso.");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }

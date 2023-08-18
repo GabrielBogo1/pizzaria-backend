@@ -16,10 +16,21 @@ public class PizzaEntity {
     private Long id;
 
     @Getter @Setter
-    @ManyToMany
-//    @JoinTable(name = "pizza_sabor",
-//            joinColumns = @JoinColumn(name = "pizza_id"),
-//            inverseJoinColumns = @JoinColumn(name = "sabor_id"))
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "pizza_sabor",
+            uniqueConstraints = @UniqueConstraint(
+                    columnNames = {
+                            "pizza_id",
+                            "sabor_id"
+                    }
+            ),
+            joinColumns = @JoinColumn(
+                    name = "pizza_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "sabor_id"
+            )
+    )
     private List<SaboresEntity> sabores;
     @Getter @Setter
     @Column (name = "preco_pizza")
@@ -30,6 +41,7 @@ public class PizzaEntity {
     private int quantPizza;
 
     @Enumerated(EnumType.STRING)
+    @Getter @Setter
     @Column (name = "tamanho")
     private Tamanho tamanho;
 
