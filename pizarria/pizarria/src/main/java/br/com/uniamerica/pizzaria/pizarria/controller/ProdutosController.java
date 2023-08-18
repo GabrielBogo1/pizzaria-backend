@@ -36,7 +36,7 @@ public class ProdutosController {
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final ProdutosDTO produto) {
         try {
-//            this.produtoService.validaProduto(produto);
+            this.produtoService.validarProduto(produto);
             return ResponseEntity.ok("Produto cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -46,9 +46,9 @@ public class ProdutosController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final ProdutosDTO produto) {
+    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final ProdutosEntity produto) {
         try {
-//            this.produtoService.editarProduto(id, produto);
+            this.produtoService.editarProduto(produto);
             return ResponseEntity.ok("Produto atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -60,11 +60,9 @@ public class ProdutosController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(
-            @PathVariable("id") final Long id
-    ) {
+    public ResponseEntity<?> delete(@PathVariable("id") final Long id) {
         try {
-//            this.produtoService.deletarProduto(id);
+            this.produtoService.deletarProduto(id);
             return ResponseEntity.ok("Produto excluido com sucesso.");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
