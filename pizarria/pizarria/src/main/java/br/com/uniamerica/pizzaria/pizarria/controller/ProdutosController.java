@@ -33,11 +33,6 @@ public class ProdutosController {
         return ResponseEntity.ok(this.produtoRepository.findAll());
     }
 
-//    @GetMapping("/lista/ativo")
-//    public ResponseEntity<?> listaCompletaAtivo(){
-//        return ResponseEntity.ok(this.produtoRepository.findByAtivoTrue());
-//    }
-
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final ProdutosDTO produto) {
         try {
