@@ -20,11 +20,17 @@ public class PedidosService {
         var pedido = new PedidoEntity();
         BeanUtils.copyProperties(pedidoDTO, pedido);
 
+        Assert.isTrue(!pedido.getFuncionario().equals(""), "Funcionário não pode ser nulo");
+        Assert.isTrue(!pedido.getUsuario().equals(""), "Usuário não pode ser nulo");
+
         this.pedidoRepository.save(pedido);
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void editaPedido (final PedidoEntity pedido){
+
+        Assert.isTrue(!pedido.getFuncionario().equals(""), "Funcionário não pode ser nulo");
+        Assert.isTrue(!pedido.getUsuario().equals(""), "Usuário não pode ser nulo");
         this.pedidoRepository.save(pedido);
 
     }

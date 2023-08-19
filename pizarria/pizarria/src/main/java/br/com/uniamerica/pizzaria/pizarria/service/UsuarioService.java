@@ -25,6 +25,8 @@ public class UsuarioService {
 
         Assert.isTrue(!usuario.getNomeUsuario().equals(""), "Nome de usuário não pode ser nulo");
         Assert.isTrue(usuario.getNomeUsuario().length() <= 100, "Nome de usuário acima do limite de caracteres");
+        Assert.isTrue(!usuario.getCpf().equals(""), "CPF não pode ser nulo");
+        Assert.isTrue(!usuario.getEndereco().equals(""), "Endereco não pode ser nulo");
 
         this.usuarioRepository.save(usuario);
     }
@@ -34,6 +36,7 @@ public class UsuarioService {
         Assert.isTrue(!usuario.getNomeUsuario().equals(""), "Nome de usuário não pode ser nulo");
         Assert.isTrue(usuario.getNomeUsuario().length() <= 100, "Nome de usuário acima do limite de caracteres");
         Assert.isTrue(!usuario.getCpf().equals(""), "CPF não pode ser nulo");
+        Assert.isTrue(!usuario.getEndereco().equals(""), "Endereco não pode ser nulo");
 
         this.usuarioRepository.save(usuario);
     }
