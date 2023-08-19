@@ -33,6 +33,7 @@ public class UsuarioService {
     public void editaUsuario (final UsuarioEntity usuario){
         Assert.isTrue(!usuario.getNomeUsuario().equals(""), "Nome de usuário não pode ser nulo");
         Assert.isTrue(usuario.getNomeUsuario().length() <= 100, "Nome de usuário acima do limite de caracteres");
+        Assert.isTrue(!usuario.getCpf().equals(""), "CPF não pode ser nulo");
 
         this.usuarioRepository.save(usuario);
     }

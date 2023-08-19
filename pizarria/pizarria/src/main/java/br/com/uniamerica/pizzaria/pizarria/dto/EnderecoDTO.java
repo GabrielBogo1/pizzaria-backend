@@ -1,6 +1,5 @@
 package br.com.uniamerica.pizzaria.pizarria.dto;
 
-import br.com.uniamerica.pizzaria.pizarria.entity.UsuarioEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -20,4 +19,5 @@ public class EnderecoDTO {
     private int numCasa;
 
     private String cep;
+
 }

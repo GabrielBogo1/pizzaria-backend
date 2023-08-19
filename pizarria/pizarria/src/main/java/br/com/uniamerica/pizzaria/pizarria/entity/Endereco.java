@@ -30,21 +30,4 @@ public class Endereco {
     @Column (name = "cep")
     private String cep;
 
-//    @Getter @Setter
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinTable( name = "endereco_usuario",
-//            uniqueConstraints = @UniqueConstraint(
-//                    columnNames = {
-//                            "endereco_id",
-//                            "usuario_id"
-//                    }
-//            ),
-//            joinColumns = @JoinColumn(
-//                    name = "endereco_id"
-//            ),
-//            inverseJoinColumns = @JoinColumn(
-//                    name = "usuario_id"
-//            )
-//    )
-//    private UsuarioEntity usuario;
 }

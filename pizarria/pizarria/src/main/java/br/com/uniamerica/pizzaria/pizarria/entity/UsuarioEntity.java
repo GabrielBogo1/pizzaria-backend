@@ -61,6 +61,7 @@ public class UsuarioEntity {
             )
     )
     private Endereco endereco;
+
 }
 
 
