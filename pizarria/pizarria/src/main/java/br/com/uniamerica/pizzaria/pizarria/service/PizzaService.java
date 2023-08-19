@@ -33,6 +33,11 @@ public class PizzaService {
             pizza.setPrecoPizza(45);
         }
 
+        float total = 0;
+
+        total = pizza.getPrecoPizza() * pizza.getQuantPizza();
+        System.out.println(total);
+
         this.pizzaRepository.save(pizza);
     }
 
