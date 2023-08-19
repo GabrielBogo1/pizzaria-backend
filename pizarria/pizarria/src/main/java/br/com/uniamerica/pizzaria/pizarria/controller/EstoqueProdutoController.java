@@ -33,15 +33,10 @@ public class EstoqueProdutoController {
         return ResponseEntity.ok(this.estoqueProdutoRepository.findAll());
     }
 
-//    @GetMapping("/lista/ativo")
-//    public ResponseEntity<?> listaCompletaAtivo(){
-//        return ResponseEntity.ok(this.estoqueProdutoRepository.findByAtivoTrue());
-//    }
-
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final EstoqueProdutoDTO estoqueProduto) {
         try {
-//            this.estoqueProdutoService.validaEstoqueProduto(estoqueProduto);
+            this.estoqueProdutoService.validaEstoque(estoqueProduto);
             return ResponseEntity.ok("Estoque cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -51,9 +46,9 @@ public class EstoqueProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final EstoqueProdutoDTO estoqueProduto) {
+    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final EstoqueProduto estoqueProduto) {
         try {
-//            this.estoqueProdutoService.editarEstoqueProduto(id, estoqueProduto);
+            this.estoqueProdutoService.editaEstoque(estoqueProduto);
             return ResponseEntity.ok("Estoque atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
@@ -69,7 +64,7 @@ public class EstoqueProdutoController {
             @PathVariable("id") final Long id
     ) {
         try {
-//            this.estoqueProdutoService.deletarEstoqueProduto(id);
+            this.estoqueProdutoService.deletarProduto(id);
             return ResponseEntity.ok("Estoque excluido com sucesso.");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
