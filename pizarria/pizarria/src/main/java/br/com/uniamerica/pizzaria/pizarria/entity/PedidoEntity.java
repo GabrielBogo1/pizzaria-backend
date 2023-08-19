@@ -24,7 +24,7 @@ public class PedidoEntity {
     private FuncionarioEntity funcionario;
 
     @Getter @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario",nullable = false)
     private UsuarioEntity usuario;
 
@@ -45,7 +45,7 @@ public class PedidoEntity {
     private boolean delivery;
 
     @Getter @Setter
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "pizza_id")
     private List<PizzaEntity> pizzas;
 

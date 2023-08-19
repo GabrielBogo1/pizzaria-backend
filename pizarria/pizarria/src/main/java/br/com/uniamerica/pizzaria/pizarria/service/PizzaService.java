@@ -21,7 +21,6 @@ public class PizzaService {
         BeanUtils.copyProperties(pizzaDTO,pizza);
 
         Assert.isTrue(!pizza.getSabores().equals(""), "Sabor da pizza não pode ser nulo");
-        Assert.isTrue(pizza.getQuantPizza() != 0,"Quantidade de pizza não pode ser nula");
 
         if(pizza.getTamanho() == Tamanho.P){
             pizza.setPrecoPizza(15);
@@ -42,7 +41,6 @@ public class PizzaService {
     public void editaPizza (PizzaEntity pizza) {
 
         Assert.isTrue(!pizza.getSabores().equals(""), "Sabor da pizza não pode ser nulo");
-        Assert.isTrue(pizza.getQuantPizza() != 0,"Quantidade de pizza não pode ser nula");
 
         if(pizza.getTamanho() == Tamanho.P){
             pizza.setPrecoPizza(15);

@@ -20,15 +20,7 @@ public class PedidosService {
         var pedido = new PedidoEntity();
         BeanUtils.copyProperties(pedidoDTO, pedido);
 
-        float total = 0;
-
-        if (pedido.getPizzas().size() >= 1) {
-            for (int i = 0; i < pedido.getPizzas().size(); i++) {
-                total += pedido.getPizzas().get(i).getPrecoPizza();
-            }
-
-            this.pedidoRepository.save(pedido);
-        }
+        this.pedidoRepository.save(pedido);
     }
 
     @Transactional(rollbackFor = Exception.class)
