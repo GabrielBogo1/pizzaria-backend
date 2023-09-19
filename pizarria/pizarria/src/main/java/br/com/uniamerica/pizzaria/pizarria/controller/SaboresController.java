@@ -48,13 +48,11 @@ public class SaboresController {
     @PutMapping("/{id}")
     public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final SaboresEntity sabores) {
         try {
-            this.saboresService.editaSabor(sabores);
+            this.saboresService.editaSabor(id, sabores);
             return ResponseEntity.ok("Sabor atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-        } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }

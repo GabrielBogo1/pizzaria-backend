@@ -48,13 +48,11 @@ public class PizzaController {
     @PutMapping("/{id}")
     public ResponseEntity<?> editarPizza (@PathVariable("id") final Long id, @RequestBody final PizzaEntity pizza) {
         try {
-            this.pizzaService.editaPizza(pizza);
+            this.pizzaService.editaPizza(id, pizza);
             return ResponseEntity.ok("Pizza atualizada com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-        } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }

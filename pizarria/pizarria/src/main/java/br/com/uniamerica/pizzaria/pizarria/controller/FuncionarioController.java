@@ -32,11 +32,6 @@ public class FuncionarioController {
         return ResponseEntity.ok(this.funcionarioRepository.findAll());
     }
 
-//    @GetMapping("/lista/ativo")
-//    public ResponseEntity<?> listaCompletaAtivo(){
-//        return ResponseEntity.ok(this.funcionarioRepository.findByAtivoTrue());
-//    }
-
     @PostMapping
     public ResponseEntity<?> cadastrarFuncionario (@RequestBody final FuncionarioDTO funcionarioDTO) {
         try {
@@ -52,13 +47,11 @@ public class FuncionarioController {
     @PutMapping("/{id}")
     public ResponseEntity<?> editarFuncionario (@PathVariable("id") final Long id, @RequestBody final FuncionarioEntity funcionario) {
         try {
-            this.funcionarioService.editaFuncionario(funcionario);
+            this.funcionarioService.editaFuncionario(id, funcionario);
             return ResponseEntity.ok("Funcionario atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-        } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }

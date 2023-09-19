@@ -2,7 +2,7 @@ package br.com.uniamerica.pizzaria.pizarria.controller;
 
 import br.com.uniamerica.pizzaria.pizarria.dto.EstoqueProdutoDTO;
 
-import br.com.uniamerica.pizzaria.pizarria.entity.EstoqueProduto;
+import br.com.uniamerica.pizzaria.pizarria.entity.EstoqueProdutos;
 import br.com.uniamerica.pizzaria.pizarria.repository.EstoqueProdutoRepository;
 import br.com.uniamerica.pizzaria.pizarria.service.EstoqueProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class EstoqueProdutoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
-        final EstoqueProduto estoqueProduto = this.estoqueProdutoRepository.findById(id).orElse(null);
+        final EstoqueProdutos estoqueProduto = this.estoqueProdutoRepository.findById(id).orElse(null);
         return estoqueProduto == null
                 ? ResponseEntity.badRequest().body("Nenhum item foi encontrado para o ID = " + id + ".")
                 : ResponseEntity.ok(estoqueProduto);
@@ -46,15 +46,13 @@ public class EstoqueProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final EstoqueProduto estoqueProduto) {
+    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final EstoqueProdutos estoqueProduto) {
         try {
-            this.estoqueProdutoService.editaEstoque(estoqueProduto);
+            this.estoqueProdutoService.editaEstoque(id, estoqueProduto);
             return ResponseEntity.ok("Estoque atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-        } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }

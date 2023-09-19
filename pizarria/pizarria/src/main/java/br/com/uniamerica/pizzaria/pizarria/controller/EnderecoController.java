@@ -47,13 +47,11 @@ public class EnderecoController {
     @PutMapping("/{id}")
     public ResponseEntity<?> editarEndereco (@PathVariable("id") final Long id, @RequestBody final Endereco endereco) {
         try {
-            this.enderecoService.editaEndereco(endereco);
+            this.enderecoService.editaEndereco(id,endereco);
             return ResponseEntity.ok("Endereco atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-        } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }

@@ -1,5 +1,5 @@
 package br.com.uniamerica.pizzaria.pizarria.entity;
 
 public enum Status {
-    ANDAMENTO, ACAMINHO, ENTREGUE
+    ANDAMENTO, ACAMINHO, FINALIZADO, ENTREGUE, CANCELADO
 }

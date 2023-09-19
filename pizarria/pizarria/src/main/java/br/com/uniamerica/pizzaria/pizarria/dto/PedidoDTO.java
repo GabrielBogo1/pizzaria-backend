@@ -3,6 +3,8 @@ package br.com.uniamerica.pizzaria.pizarria.dto;
 import br.com.uniamerica.pizzaria.pizarria.entity.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -21,9 +23,13 @@ public class PedidoDTO {
 
     private boolean delivery;
 
-    private List<PizzaEntity> pizza;
+    private List<PizzaEntity> pizzas;
 
     private boolean pagamentoCartao;
 
+    private boolean pagamentoDinheiro;
+
     private List <ProdutosEntity> produtos;
+
+    private LocalDate dataPedido;
 }

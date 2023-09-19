@@ -2,7 +2,6 @@ package br.com.uniamerica.pizzaria.pizarria.service;
 
 import br.com.uniamerica.pizzaria.pizarria.dto.EnderecoDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.Endereco;
-import br.com.uniamerica.pizzaria.pizarria.entity.FuncionarioEntity;
 import br.com.uniamerica.pizzaria.pizarria.repository.EnderecoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +26,26 @@ public class EnderecoService {
         Assert.isTrue(!endereco.getRua().equals(""), "Rua não pode ser nula");
         Assert.isTrue(!endereco.getCep().equals(""), "CEP não pode ser nulo");
 
+        Assert.isTrue(endereco.getNumCasa() > 0, "Número da casa não pode ser nulo");
+
         this.enderecoRepository.save(endereco);
     }
 
     @Transactional(rollbackFor = Exception.class)
 
-    public void editaEndereco (final Endereco endereco){
+    public void editaEndereco (final Long id, final Endereco endereco){
 
         Assert.isTrue(!endereco.getBairro().equals(""), "Bairro não pode ser nulo");
         Assert.isTrue(!endereco.getRua().equals(""), "Rua não pode ser nula");
         Assert.isTrue(!endereco.getCep().equals(""), "CEP não pode ser nulo");
+
+        Assert.isTrue(endereco.getNumCasa() > 0, "Número da casa não pode ser nulo");
+
+        final Endereco endereco1 = this.enderecoRepository.findById(id).orElse(null);
+
+        if (endereco1 == null || !endereco1.getId().equals(endereco.getId())){
+            throw new RuntimeException("Não foi possivel identificar o registro informado.");
+        }
 
         this.enderecoRepository.save(endereco);
     }

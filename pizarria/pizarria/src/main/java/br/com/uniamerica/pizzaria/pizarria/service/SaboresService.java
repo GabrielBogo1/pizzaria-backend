@@ -1,8 +1,6 @@
 package br.com.uniamerica.pizzaria.pizarria.service;
 
-import br.com.uniamerica.pizzaria.pizarria.dto.FuncionarioDTO;
 import br.com.uniamerica.pizzaria.pizarria.dto.SaboresDTO;
-import br.com.uniamerica.pizzaria.pizarria.entity.FuncionarioEntity;
 import br.com.uniamerica.pizzaria.pizarria.entity.SaboresEntity;
 import br.com.uniamerica.pizzaria.pizarria.repository.SaboresRepository;
 import org.springframework.beans.BeanUtils;
@@ -26,14 +24,24 @@ public class SaboresService {
         Assert.isTrue(!sabores.getNomeSabor().equals(""), "Nome do sabor não pode ser nulo");
         Assert.isTrue(sabores.getNomeSabor().length() <= 100, "Nome excede o limite de caracteres");
 
+        SaboresEntity sabores1 = saboresRepository.findByNomeSabor(sabores.getNomeSabor());
+
+        Assert.isTrue(sabores1 == null || sabores1.equals(sabores.getNomeSabor()), "Sabor já existente");
+
         this.saboresRepository.save(sabores);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void editaSabor (final SaboresEntity sabores){
+    public void editaSabor (final Long id, final SaboresEntity sabores){
 
         Assert.isTrue(!sabores.getNomeSabor().equals(""), "Nome do sabor não pode ser nulo");
         Assert.isTrue(sabores.getNomeSabor().length() <= 100, "Nome excede o limite de caracteres");
+
+        final SaboresEntity sabores1 = this.saboresRepository.findById(id).orElse(null);
+
+        if (sabores1 == null || !sabores1.getId().equals(sabores.getId())){
+            throw new RuntimeException("Não foi possivel identificar o registro informado.");
+        }
 
         this.saboresRepository.save(sabores);
     }
@@ -43,7 +51,7 @@ public class SaboresService {
         final SaboresEntity sabores1 = this.saboresRepository.findById(id).orElse(null);
 
         if (sabores1 == null || !sabores1.getId().equals(id)){
-            throw new RuntimeException("Não foi possivel encontrar o funcionário.");
+            throw new RuntimeException("Não foi possivel encontrar o sabor selecionado.");
         }
 
         this.saboresRepository.delete(sabores1);

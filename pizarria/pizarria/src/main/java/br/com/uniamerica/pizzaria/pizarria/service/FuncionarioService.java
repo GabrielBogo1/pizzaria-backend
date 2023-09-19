@@ -2,7 +2,6 @@ package br.com.uniamerica.pizzaria.pizarria.service;
 
 import br.com.uniamerica.pizzaria.pizarria.dto.FuncionarioDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.FuncionarioEntity;
-import br.com.uniamerica.pizzaria.pizarria.entity.SaboresEntity;
 import br.com.uniamerica.pizzaria.pizarria.repository.FuncionarioRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +28,16 @@ public class FuncionarioService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void editaFuncionario (final FuncionarioEntity funcionarioEntity){
+    public void editaFuncionario (final Long id, final FuncionarioEntity funcionarioEntity){
 
         Assert.isTrue(!funcionarioEntity.getNomeFuncionario().equals(""), "Nome do funcionário não pode ser nulo");
         Assert.isTrue(funcionarioEntity.getNomeFuncionario().length() <= 100, "Nome excede o limite de caracteres");
+
+        final FuncionarioEntity funcionario1 = this.funcionarioRepository.findById(id).orElse(null);
+
+        if (funcionario1 == null || !funcionario1.getId().equals(funcionarioEntity.getId())){
+            throw new RuntimeException("Não foi possivel identificar o registro informado.");
+        }
 
         this.funcionarioRepository.save(funcionarioEntity);
     }

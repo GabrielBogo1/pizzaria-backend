@@ -48,13 +48,11 @@ public class UsuarioController {
     @PutMapping("/{id}")
     public ResponseEntity<?> editarUsuario (@PathVariable("id") final Long id, @RequestBody final UsuarioEntity usuario) {
         try {
-            this.usuarioService.editaUsuario(usuario);
+            this.usuarioService.editaUsuario(id, usuario);
             return ResponseEntity.ok("Usuario atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-        } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }

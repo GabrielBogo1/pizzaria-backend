@@ -4,36 +4,34 @@ package br.com.uniamerica.pizzaria.pizarria.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table (name = "pedidos", schema = "public")
+@Getter @Setter
 public class PedidoEntity {
 
     @Id
-    @Getter
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id" , nullable = false, unique = true)
     private Long id;
 
-    @Getter @Setter
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "funcionario")
     private FuncionarioEntity funcionario;
 
-    @Getter @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario",nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
     private UsuarioEntity usuario;
 
-    @Getter @Setter
     @Column (name = "observacao")
     private String observacao;
 
 
-    @Getter @Setter
     @Column (name = "pedido_preco")
     private float pedidoPreco;
 
@@ -41,32 +39,30 @@ public class PedidoEntity {
     @Column (name = "status")
     private Status status;
 
-    @Getter @Setter
     private boolean delivery;
 
-    @Getter @Setter
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pizza_id")
+//    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "pedido_id")
     private List<PizzaEntity> pizzas;
 
-
-    @Getter @Setter
     @Column (name = "pagameto_cartao")
     private boolean pagamentoCartao;
 
-    @Getter @Setter
-    @OneToMany(fetch = FetchType.LAZY)
+    private boolean pagamentoDinheiro;
+
+
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "produtos")
     private List<ProdutosEntity> produtos;
 
-    @Getter @Setter
     @Column (name = "dataPedido")
-    private LocalDateTime dataPedido;
+    private LocalDate dataPedido;
 
 
 
     @PrePersist
     private void prePersist(){
-        this.dataPedido = LocalDateTime.now();
+        this.dataPedido = LocalDate.now();
     }
 }

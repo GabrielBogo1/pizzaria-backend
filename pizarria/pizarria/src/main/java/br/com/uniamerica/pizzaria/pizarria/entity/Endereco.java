@@ -1,33 +1,35 @@
 package br.com.uniamerica.pizzaria.pizarria.entity;
 
+import br.com.uniamerica.pizzaria.pizarria.dto.UsuarioDTO;
 import jakarta.persistence.*;
-import lombok.Data;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Table (name = "endereco", schema = "public")
+@Getter @Setter
 public class Endereco {
     @Id
-    @Getter
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id" , nullable = false, unique = true)
     private Long id;
 
-    @Getter @Setter
     @Column (name = "rua")
     private String rua;
 
-    @Getter @Setter
     @Column (name = "bairro")
     private String bairro;
 
-    @Getter @Setter
     @Column (name = "n_casa")
+    @NotNull(message = "Número da casa não pode ser nulo")
     private int numCasa;
 
-    @Getter @Setter
     @Column (name = "cep")
     private String cep;
+
+//    @ManyToOne (fetch = FetchType.EAGER)
+//    @JoinColumn (name = "usuario_id")
+//    private UsuarioEntity usuario;
 
 }

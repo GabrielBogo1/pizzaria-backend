@@ -6,18 +6,16 @@ import lombok.Setter;
 
 @Entity
 @Table (name = "login", schema = "public")
+@Getter @Setter
 public class Login {
     @Id
-    @Getter
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id" , nullable = false, unique = true)
     private Long id;
 
-    @Getter @Setter
     @Column (name = "login")
     private String login;
 
-    @Getter @Setter
     @Column (name = "senha")
     private String senha;
 }

@@ -48,13 +48,11 @@ public class ProdutosController {
     @PutMapping("/{id}")
     public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final ProdutosEntity produto) {
         try {
-            this.produtoService.editarProduto(produto);
+            this.produtoService.editarProduto(id, produto);
             return ResponseEntity.ok("Produto atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-        } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }

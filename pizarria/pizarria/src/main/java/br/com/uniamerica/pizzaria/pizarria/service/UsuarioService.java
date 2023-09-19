@@ -1,8 +1,6 @@
 package br.com.uniamerica.pizzaria.pizarria.service;
 
-import br.com.uniamerica.pizzaria.pizarria.dto.FuncionarioDTO;
 import br.com.uniamerica.pizzaria.pizarria.dto.UsuarioDTO;
-import br.com.uniamerica.pizzaria.pizarria.entity.FuncionarioEntity;
 import br.com.uniamerica.pizzaria.pizarria.entity.UsuarioEntity;
 import br.com.uniamerica.pizzaria.pizarria.repository.UsuarioRepository;
 import org.springframework.beans.BeanUtils;
@@ -25,18 +23,30 @@ public class UsuarioService {
 
         Assert.isTrue(!usuario.getNomeUsuario().equals(""), "Nome de usuário não pode ser nulo");
         Assert.isTrue(usuario.getNomeUsuario().length() <= 100, "Nome de usuário acima do limite de caracteres");
-        Assert.isTrue(!usuario.getCpf().equals(""), "CPF não pode ser nulo");
-        Assert.isTrue(!usuario.getEndereco().equals(""), "Endereco não pode ser nulo");
+
+        Assert.isTrue(!usuario.getTelefone().equals(""), "Telefone não pode ser nulo");
+//        Assert.isTrue(!usuario.getEnderecos().equals(""), "Endereco não pode ser nulo");
+
+        UsuarioEntity usuario1 = usuarioRepository.findByTelefone(usuario.getTelefone());
+
+        Assert.isTrue(usuario1 == null || usuario1.equals(usuario1.getTelefone()), "Telefone Já existente");
 
         this.usuarioRepository.save(usuario);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void editaUsuario (final UsuarioEntity usuario){
+    public void editaUsuario (final Long id, final UsuarioEntity usuario){
         Assert.isTrue(!usuario.getNomeUsuario().equals(""), "Nome de usuário não pode ser nulo");
         Assert.isTrue(usuario.getNomeUsuario().length() <= 100, "Nome de usuário acima do limite de caracteres");
-        Assert.isTrue(!usuario.getCpf().equals(""), "CPF não pode ser nulo");
-        Assert.isTrue(!usuario.getEndereco().equals(""), "Endereco não pode ser nulo");
+
+        Assert.isTrue(!usuario.getTelefone().equals(""), "CPF não pode ser nulo");
+
+        final UsuarioEntity usuario1 = this.usuarioRepository.findById(id).orElse(null);
+
+        if (usuario1 == null || !usuario1.getId().equals(usuario.getId())){
+            throw new RuntimeException("Não foi possivel identificar o registro informado.");
+        }
+
 
         this.usuarioRepository.save(usuario);
     }

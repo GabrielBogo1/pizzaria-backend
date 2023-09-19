@@ -47,13 +47,11 @@ public class LoginController {
     @PutMapping("/{id}")
     public ResponseEntity<?> editarLogin (@PathVariable("id") final Long id, @RequestBody final Login login) {
         try {
-          this.loginService.editaLogin(login);
+          this.loginService.editaLogin(id,login);
             return ResponseEntity.ok("Login atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-        } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }

@@ -1,12 +1,7 @@
 package br.com.uniamerica.pizzaria.pizarria.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import br.com.uniamerica.pizzaria.pizarria.entity.UsuarioEntity;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class EnderecoDTO {

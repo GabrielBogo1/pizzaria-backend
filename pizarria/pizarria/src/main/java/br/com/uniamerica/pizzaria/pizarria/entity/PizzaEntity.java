@@ -8,14 +8,13 @@ import java.util.List;
 
 @Entity
 @Table (name = "pizza", schema = "public")
+@Getter @Setter
 public class PizzaEntity {
     @Id
-    @Getter
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id" , nullable = false, unique = true)
     private Long id;
 
-    @Getter @Setter
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "pizza_sabor",
             uniqueConstraints = @UniqueConstraint(
@@ -32,17 +31,19 @@ public class PizzaEntity {
             )
     )
     private List<SaboresEntity> sabores;
-    @Getter @Setter
+
     @Column (name = "preco_pizza")
     private float precoPizza;
 
-    @Getter @Setter
     @Column (name = "quant_pizza")
     private int quantPizza;
 
     @Enumerated(EnumType.STRING)
-    @Getter @Setter
     @Column (name = "tamanho")
     private Tamanho tamanho;
+
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "pedido_id")
+//    private PedidoEntity pedido;
 
 }
