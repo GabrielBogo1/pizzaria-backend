@@ -1,8 +1,8 @@
 package br.com.uniamerica.pizzaria.pizarria.controller;
 
 import br.com.uniamerica.pizzaria.pizarria.dto.PedidoDTO;
+import br.com.uniamerica.pizzaria.pizarria.dto.RelatorioDiaDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.PedidoEntity;
-import br.com.uniamerica.pizzaria.pizarria.entity.UsuarioEntity;
 import br.com.uniamerica.pizzaria.pizarria.repository.PedidoRepository;
 import br.com.uniamerica.pizzaria.pizarria.service.PedidosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +36,33 @@ public class PedidoController {
     }
 
 
+//    @GetMapping("/totaldia")
+//    public Long getTotalPedidosPorData(@RequestParam("data") LocalDate data) {
+//        return pedidoService.getPedidosPorData(data);
+//    }
+
+//    localhost:8080/api/pedido/totaldia?data=2023-09-18
     @GetMapping("/totaldia")
-    public Long getTotalPedidosPorData(@RequestParam("data") LocalDate data) {
-        return pedidoService.getPedidosPorData(data);
+    public RelatorioDiaDTO getTotalPedidosPorData(@RequestParam("data") LocalDate data) {
+        Long totalPedidos = pedidoService.TotalPedidosPorData(data);
+        Long totalPedidosCartao = pedidoService.TotalPagamentoCartao(data);
+        Long totalPedidosDinheiro = pedidoService.TotalPagamentoDinheiro(data);
+        Long totalPedidosDelivery = pedidoService.TotalPedidosDelivery(data);
+        Long totalPedidosBalcao = pedidoService.TotalPedidosBalcao(data);
+        Long totalPedidosPagos = pedidoService.TotalPagos(data);
+        Long totalPedidosCancelados = pedidoService.TotalCancelados(data);
+
+        RelatorioDiaDTO relatorioDiaDTO = new RelatorioDiaDTO();
+        relatorioDiaDTO.setTotalPedidos(totalPedidos);
+        relatorioDiaDTO.setTotalPedidosCartao(totalPedidosCartao);
+        relatorioDiaDTO.setTotalPedidosDinheiro(totalPedidosDinheiro);
+        relatorioDiaDTO.setTotalPedidosDelivery(totalPedidosDelivery);
+        relatorioDiaDTO.setTotalPedidosBalcao(totalPedidosBalcao);
+        relatorioDiaDTO.setTotalPedidosPagos(totalPedidosPagos);
+        relatorioDiaDTO.setTotalPedidosCancelados(totalPedidosCancelados);
+
+
+        return relatorioDiaDTO;
     }
 
     @GetMapping ("/comanda/{id}")

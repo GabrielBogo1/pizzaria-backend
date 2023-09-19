@@ -2,7 +2,6 @@ package br.com.uniamerica.pizzaria.pizarria.service;
 
 import br.com.uniamerica.pizzaria.pizarria.dto.PedidoDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.*;
-import br.com.uniamerica.pizzaria.pizarria.repository.EstoqueProdutoRepository;
 import br.com.uniamerica.pizzaria.pizarria.repository.PedidoRepository;
 import br.com.uniamerica.pizzaria.pizarria.repository.PizzaRepository;
 import br.com.uniamerica.pizzaria.pizarria.repository.ProdutosRepository;
@@ -11,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -63,11 +60,14 @@ public class PedidosService {
             }
         }
 
+        if (pedido.isDelivery()){
+            pedido.setDelivery(true);
+        }else
+            pedido.setDelivery(false);
 
 
         pedido.setStatus(Status.ANDAMENTO);
 
-        System.out.println(pedido.getUsuario().getNomeUsuario());
         pedido.setPedidoPreco(total + totalProdutos);
 
         this.pedidoRepository.save(pedido);
@@ -124,7 +124,8 @@ public class PedidosService {
         if (pedido.isDelivery()) {
             pedido.setStatus(Status.ACAMINHO);
         }else {
-            pedido.setStatus(Status.FINALIZADO);
+            pedido.setDelivery(false);
+            pedido.setStatus(Status.BALCAO);
         }
 
         this.pedidoRepository.save(pedido);
@@ -143,7 +144,31 @@ public class PedidosService {
         this.pedidoRepository.delete(pedido1);
     }
 
-    public Long getPedidosPorData(LocalDate data) {
+    public Long TotalPedidosPorData(LocalDate data) {
         return pedidoRepository.PedidosPorData(data);
     }
+
+    public Long TotalPagamentoCartao(LocalDate data) {
+        return pedidoRepository.TotalPedidosCartao(data);
+    }
+
+    public Long TotalPagamentoDinheiro(LocalDate data) {
+        return pedidoRepository.TotalPedidosDinheiro(data);
+    }
+
+    public Long TotalPedidosDelivery(LocalDate data) {
+        return pedidoRepository.PedidosDelivery(data);
+    }
+
+    public Long TotalPedidosBalcao(LocalDate data) {
+        return pedidoRepository.TotalPedidosBalcao(data);
+    }
+    public Long TotalPagos(LocalDate data) {
+        return pedidoRepository.TotalPagos(data);
+    }
+
+    public Long TotalCancelados(LocalDate data) {
+        return pedidoRepository.TotalCancelados(data);
+    }
+
 }
