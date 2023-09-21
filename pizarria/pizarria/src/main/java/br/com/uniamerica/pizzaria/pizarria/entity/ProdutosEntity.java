@@ -31,4 +31,11 @@ public class ProdutosEntity {
         this.estoque = estoque;
         this.totalProduto = totalProduto;
     }
+
+    public ProdutosEntity (ProdutosEntity produtos){
+        this.id = produtos.getId();
+        this.quantProd = produtos.getQuantProd();
+        this.estoque = produtos.getEstoque();
+        this.totalProduto = produtos.getTotalProduto();
+    }
 }

@@ -1,6 +1,5 @@
 package IntegracaoTest;
 
-import br.com.uniamerica.pizzaria.pizarria.entity.Login;
 import br.com.uniamerica.pizzaria.pizarria.repository.*;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
@@ -41,5 +40,10 @@ public class TestConfig {
     @Bean
     public PizzaRepository pizzaRepository() {
         return Mockito.mock(PizzaRepository.class);
+    }
+
+    @Bean
+    public ProdutosRepository produtosRepository() {
+        return Mockito.mock(ProdutosRepository.class);
     }
 }
