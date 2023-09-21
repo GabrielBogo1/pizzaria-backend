@@ -9,10 +9,17 @@ import lombok.Setter;
 @Getter @Setter
 public class FuncionarioEntity {
     @Id
-    @GeneratedValue(strategy =  GenerationType.AUTO)
-    @Column(name = "id" , nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column (name = "nome_funcionario")
+    @Column(name = "nome_funcionario")
     private String nomeFuncionario;
+
+    public FuncionarioEntity (){}
+
+    public FuncionarioEntity(Long id, String nomeFuncionario) {
+        this.id = id;
+        this.nomeFuncionario = nomeFuncionario;
+    }
 }

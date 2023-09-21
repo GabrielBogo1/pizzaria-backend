@@ -1,6 +1,5 @@
 package br.com.uniamerica.pizzaria.pizarria.entity;
 
-import br.com.uniamerica.pizzaria.pizarria.dto.UsuarioDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -27,9 +26,18 @@ public class Endereco {
 
     @Column (name = "cep")
     private String cep;
+    @Column (name = "observ")
+    private String observ;
 
-//    @ManyToOne (fetch = FetchType.EAGER)
-//    @JoinColumn (name = "usuario_id")
-//    private UsuarioEntity usuario;
 
+
+    public Endereco (){}
+    public Endereco(Long id, String rua, String bairro, int numCasa, String cep, String observ) {
+        this.id = id;
+        this.rua = rua;
+        this.bairro = bairro;
+        this.numCasa = numCasa;
+        this.cep = cep;
+        this.observ = observ;
+    }
 }

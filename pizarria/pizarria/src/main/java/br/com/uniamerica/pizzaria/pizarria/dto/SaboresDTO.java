@@ -5,5 +5,12 @@ import lombok.Data;
 public class SaboresDTO {
     private Long id;
 
-    private String NomeSabor;
+    private String nomeSabor;
+
+    public SaboresDTO (){}
+
+    public SaboresDTO(Long id, String nomeSabor) {
+        this.id = id;
+        this.nomeSabor = nomeSabor;
+    }
 }

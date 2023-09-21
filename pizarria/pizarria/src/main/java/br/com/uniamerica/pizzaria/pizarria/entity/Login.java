@@ -14,8 +14,16 @@ public class Login {
     private Long id;
 
     @Column (name = "login")
-    private String login;
+    private String loginUsuario;
 
     @Column (name = "senha")
     private String senha;
+    public Login (){}
+    public Login(Long id, String loginUsuario, String senha) {
+        this.id = id;
+        this.loginUsuario = loginUsuario;
+        this.senha = senha;
+    }
 }
+
+

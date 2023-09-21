@@ -1,9 +1,7 @@
 package br.com.uniamerica.pizzaria.pizarria.dto;
 
-import br.com.uniamerica.pizzaria.pizarria.entity.ProdutosEntity;
 import lombok.Data;
 
-import java.util.List;
 
 @Data
 public class EstoqueProdutoDTO {
@@ -12,4 +10,12 @@ public class EstoqueProdutoDTO {
     private float precoProd;
 
     private String nomeProd;
+
+    public EstoqueProdutoDTO (){}
+
+    public EstoqueProdutoDTO(Long id, float precoProd, String nomeProd) {
+        this.id = id;
+        this.precoProd = precoProd;
+        this.nomeProd = nomeProd;
+    }
 }

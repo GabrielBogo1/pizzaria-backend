@@ -12,9 +12,15 @@ public class UsuarioDTO {
 
     private String nomeUsuario;
 
-    private Login login;
+    private Login loginUsuario;
 
     private String telefone;
 
     private List<Endereco> enderecos;
+
+    public UsuarioDTO (){}
+
+    public UsuarioDTO(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
 }

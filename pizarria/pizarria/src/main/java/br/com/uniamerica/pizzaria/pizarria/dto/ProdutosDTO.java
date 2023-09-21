@@ -1,7 +1,6 @@
 package br.com.uniamerica.pizzaria.pizarria.dto;
 
 import br.com.uniamerica.pizzaria.pizarria.entity.EstoqueProdutos;
-import br.com.uniamerica.pizzaria.pizarria.entity.ProdutosEntity;
 import lombok.Data;
 
 @Data
@@ -15,4 +14,13 @@ public class ProdutosDTO {
     private EstoqueProdutos estoque;
 
     private float totalProduto;
+
+    public ProdutosDTO (){}
+
+    public ProdutosDTO(Long id, int quantProd, EstoqueProdutos estoque, float totalProduto) {
+        this.id = id;
+        this.quantProd = quantProd;
+        this.estoque = estoque;
+        this.totalProduto = totalProduto;
+    }
 }

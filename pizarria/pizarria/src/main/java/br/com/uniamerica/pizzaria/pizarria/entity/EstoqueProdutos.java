@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 
 @Entity
 @Table (name = "estoque_produtos", schema = "public")
@@ -21,4 +20,12 @@ public class EstoqueProdutos {
 
     @Column (name = "nome_produto")
     private String nomeProd;
+
+    public EstoqueProdutos (){}
+
+    public EstoqueProdutos(Long id, float precoProd, String nomeProd) {
+        this.id = id;
+        this.precoProd = precoProd;
+        this.nomeProd = nomeProd;
+    }
 }

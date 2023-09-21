@@ -10,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/usuario")
 public class UsuarioController {
@@ -21,49 +23,50 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<UsuarioEntity> findByIdPath(@PathVariable("id") final Long id) {
         final UsuarioEntity usuario = this.usuarioRepository.findById(id).orElse(null);
-        return usuario == null
-                ? ResponseEntity.badRequest().body("Nenhum usuário encontrado para o ID = " + id + ".")
-                : ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(usuario);
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<?> listaCompleta() {
+    public ResponseEntity<List<UsuarioEntity>> listaCompleta() {
         return ResponseEntity.ok(this.usuarioRepository.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrarUsuario (@RequestBody final UsuarioDTO usuario) {
+    public ResponseEntity<String> cadastrarUsuario (@RequestBody final UsuarioDTO usuario) {
         try {
             this.usuarioService.validaUsuario(usuario);
             return ResponseEntity.ok("Usuario cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editarUsuario (@PathVariable("id") final Long id, @RequestBody final UsuarioEntity usuario) {
+    public ResponseEntity<String> editarUsuario (@PathVariable("id") final Long id, @RequestBody final UsuarioEntity usuario) {
         try {
             this.usuarioService.editaUsuario(id, usuario);
             return ResponseEntity.ok("Usuario atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<String> delete(@PathVariable("id") final Long id) {
         try {
             this.usuarioService.deletaUsuario(id);
             return ResponseEntity.ok("Usuário excluido com sucesso.");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
+    }
+
+    private String getErrorMessage(Exception e) {
+        return "Error: " + e.getMessage();
     }
 }

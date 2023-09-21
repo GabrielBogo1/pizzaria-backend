@@ -6,6 +6,14 @@ import lombok.Data;
 public class LoginDTO {
     private Long id;
 
-    private String login;
+    private String loginUsuario;
     private String senha;
+
+    public LoginDTO (){}
+
+    public LoginDTO(Long id, String loginUsuario, String senha) {
+        this.id = id;
+        this.loginUsuario = loginUsuario;
+        this.senha = senha;
+    }
 }

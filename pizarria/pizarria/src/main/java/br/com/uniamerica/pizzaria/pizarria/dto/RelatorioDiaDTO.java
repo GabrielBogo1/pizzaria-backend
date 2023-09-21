@@ -29,7 +29,7 @@ public class RelatorioDiaDTO {
         } else if (totalPedidosCancelados > 0) {
             return "Cancelados: ";
         } else {
-            return "Sem dados";
+            return "";
         }
     }
 }

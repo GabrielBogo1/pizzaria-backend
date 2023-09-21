@@ -10,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/estoqueproduto")
 public class EstoqueProdutoController {
@@ -21,51 +23,53 @@ public class EstoqueProdutoController {
     private EstoqueProdutoService estoqueProdutoService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<EstoqueProdutos> findByIdPath(@PathVariable("id") final Long id) {
         final EstoqueProdutos estoqueProduto = this.estoqueProdutoRepository.findById(id).orElse(null);
-        return estoqueProduto == null
-                ? ResponseEntity.badRequest().body("Nenhum item foi encontrado para o ID = " + id + ".")
-                : ResponseEntity.ok(estoqueProduto);
+        return ResponseEntity.ok(estoqueProduto);
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<?> listaCompleta() {
+    public ResponseEntity<List <EstoqueProdutos>> listaCompleta() {
         return ResponseEntity.ok(this.estoqueProdutoRepository.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final EstoqueProdutoDTO estoqueProduto) {
+    public ResponseEntity<String> cadastrar(@RequestBody final EstoqueProdutoDTO estoqueProduto) {
         try {
             this.estoqueProdutoService.validaEstoque(estoqueProduto);
             return ResponseEntity.ok("Estoque cadastrado com sucesso.");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final EstoqueProdutos estoqueProduto) {
+    public ResponseEntity<String> editar(@PathVariable("id") final Long id, @RequestBody final EstoqueProdutos estoqueProduto) {
         try {
             this.estoqueProdutoService.editaEstoque(id, estoqueProduto);
             return ResponseEntity.ok("Estoque atualizado com sucesso. ");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(
+    public ResponseEntity<String> delete(
             @PathVariable("id") final Long id
     ) {
         try {
             this.estoqueProdutoService.deletarProduto(id);
             return ResponseEntity.ok("Estoque excluido com sucesso.");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            String errorMessage = getErrorMessage(e);
+            return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
+
+    private String getErrorMessage(Exception e) {
+        return "Error: " + e.getMessage();
+    }
+
 }

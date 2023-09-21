@@ -1,6 +1,5 @@
 package br.com.uniamerica.pizzaria.pizarria.dto;
 
-import br.com.uniamerica.pizzaria.pizarria.entity.UsuarioEntity;
 import lombok.Data;
 
 @Data
@@ -15,4 +14,16 @@ public class EnderecoDTO {
 
     private String cep;
 
+    private String observ;
+
+
+    public EnderecoDTO (){}
+    public EnderecoDTO(Long id, String rua, String bairro, int numCasa, String cep, String observ) {
+        this.id = id;
+        this.rua = rua;
+        this.bairro = bairro;
+        this.numCasa = numCasa;
+        this.cep = cep;
+        this.observ = observ;
+    }
 }
