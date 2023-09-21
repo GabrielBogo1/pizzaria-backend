@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/pizza")
-public class PizzaController {
+class PizzaController {
 
     @Autowired
     private PizzaRepository pizzaRepository;

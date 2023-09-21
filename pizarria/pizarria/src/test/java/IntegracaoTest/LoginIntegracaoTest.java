@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @ContextConfiguration(classes = TestConfig.class)
-public class LoginIntegracaoTest {
+class LoginIntegracaoTest {
 
     @Autowired
     LoginRepository loginRepository;
