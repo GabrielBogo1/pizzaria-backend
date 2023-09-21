@@ -18,6 +18,11 @@ public class FuncionarioEntity {
 
     public FuncionarioEntity (){}
 
+    public FuncionarioEntity (FuncionarioEntity funcionario){
+        this.id = funcionario.getId();
+        this.nomeFuncionario = getNomeFuncionario();
+    }
+
     public FuncionarioEntity(Long id, String nomeFuncionario) {
         this.id = id;
         this.nomeFuncionario = nomeFuncionario;

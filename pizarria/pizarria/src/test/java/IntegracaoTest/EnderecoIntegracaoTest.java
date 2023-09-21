@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @ContextConfiguration(classes = TestConfig.class)
-public class EnderecoIntegracaoTest {
+class EnderecoIntegracaoTest {
 
     @Autowired
     EnderecoRepository enderecoRepository;

@@ -28,4 +28,15 @@ public class EstoqueProdutos {
         this.precoProd = precoProd;
         this.nomeProd = nomeProd;
     }
+
+    public EstoqueProdutos(EstoqueProdutos estoqueProdutos) {
+        this.id = estoqueProdutos.getId();
+        this.precoProd = estoqueProdutos.getPrecoProd();
+        this.nomeProd = estoqueProdutos.getNomeProd();
+    }
+
+    public EstoqueProdutos(Long id, String nomeProd) {
+        this.id = id;
+        this.nomeProd = nomeProd;
+    }
 }

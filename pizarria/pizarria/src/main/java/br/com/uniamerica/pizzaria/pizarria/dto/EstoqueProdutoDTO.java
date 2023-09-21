@@ -18,4 +18,9 @@ public class EstoqueProdutoDTO {
         this.precoProd = precoProd;
         this.nomeProd = nomeProd;
     }
+
+    public EstoqueProdutoDTO(Long id, String nomeProd) {
+        this.id = id;
+        this.nomeProd = nomeProd;
+    }
 }

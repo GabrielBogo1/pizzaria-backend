@@ -37,8 +37,8 @@ class SaborIntegracaoTest {
 
     @BeforeEach
     void injectData() {
-        SaboresEntity sabor = new SaboresEntity(1L,"Calabresa");
-        SaboresEntity sabor2 = new SaboresEntity(2L,"Peperoni");
+        SaboresEntity sabor = new SaboresEntity(1L,"Teste1");
+        SaboresEntity sabor2 = new SaboresEntity(2L,"teste2");
         saborList = new ArrayList<>();
         saborList.add(sabor);
         saborList.add(sabor2);
@@ -55,7 +55,7 @@ class SaborIntegracaoTest {
         // Simule o comportamento do saboresController
         Mockito.when(saboresController.cadastrar(Mockito.any(SaboresDTO.class))).thenReturn(ResponseEntity.ok("Registro cadastrado com sucesso"));
 
-        var sabor = saboresController.cadastrar(new SaboresDTO(1L, "Frango"));
+        var sabor = saboresController.cadastrar(new SaboresDTO(1L, "TESTANDOSABOR"));
 
         Assertions.assertEquals("Registro cadastrado com sucesso", sabor.getBody());
     }
@@ -72,7 +72,7 @@ class SaborIntegracaoTest {
     void testSaboresPut(){
         Mockito.when(saboresController.editar(Mockito.anyLong(), Mockito.any(SaboresEntity.class))).thenReturn(ResponseEntity.ok("Registro Cadastrado com Sucesso"));
 
-        SaboresEntity sabores = new SaboresEntity(1L, "Frango");
+        SaboresEntity sabores = new SaboresEntity(1L, "SaborTeste");
 
         var sabor = saboresController.editar(1L, sabores);
 
@@ -84,7 +84,7 @@ class SaborIntegracaoTest {
     void testSaboresPutError(){
         Mockito.when(saboresController.editar(Mockito.anyLong(), Mockito.any(SaboresEntity.class))).thenReturn(ResponseEntity.badRequest().body("Nao foi possivel indentificar o registro informado"));
 
-        SaboresEntity sabores = new SaboresEntity(1L, "Frango");
+        SaboresEntity sabores = new SaboresEntity(1L, "TesteSabor");
 
         var sabor = saboresController.editar(1L, sabores);
 
@@ -103,17 +103,17 @@ class SaborIntegracaoTest {
 
     @Test
     void testSaboresDeleteErro(){
-        Mockito.when(saboresController.delete(Mockito.anyLong())).thenReturn(ResponseEntity.badRequest().body("ERRor: Não foi possivel identificar o registro informado"));
+        Mockito.when(saboresController.delete(Mockito.anyLong())).thenReturn(ResponseEntity.badRequest().body("Error: Não foi possivel identificar o registro informado"));
 
         var sabor = saboresController.delete(1L);
         Assertions.assertNotNull(sabor);
-        Assertions.assertEquals("ERRor: Não foi possivel identificar o registro informado", sabor.getBody());
+        Assertions.assertEquals("Error: Não foi possivel identificar o registro informado", sabor.getBody());
     }
 
 
     @Test
     void testSaboresGetId(){
-        SaboresEntity sabor = new SaboresEntity(1L, "4 queijos");
+        SaboresEntity sabor = new SaboresEntity(1L, "testee");
         Mockito.when(saboresController.findByIdPath(Mockito.anyLong())).thenReturn(ResponseEntity.ok(new SaboresEntity(sabor)));
         var response = saboresController.findByIdPath(1L);
         Assertions.assertNotNull(response);
