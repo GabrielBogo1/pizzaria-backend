@@ -24,6 +24,8 @@ public class Login {
         this.loginUsuario = loginUsuario;
         this.senha = senha;
     }
+
+
 }
 
 

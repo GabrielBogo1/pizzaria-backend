@@ -51,4 +51,6 @@ public class PizzaEntity {
         this.quantPizza = quantPizza;
         this.tamanho = tamanho;
     }
+
+
 }
