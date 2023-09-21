@@ -26,9 +26,9 @@ public class UsuarioService {
 
         Assert.isTrue(!usuario.getTelefone().equals(""), "Telefone não pode ser nulo");
 
-        UsuarioEntity usuario1 = usuarioRepository.findByTelefone(usuario.getTelefone());
+//        UsuarioEntity usuario1 = usuarioRepository.findByTelefone(usuario.getTelefone());
 
-        Assert.isTrue(usuario1 == null || usuario1.equals(usuario1.getTelefone()), "Telefone Já existente");
+//        Assert.isTrue(usuario1 == null || usuario1.equals(usuario1.getTelefone()), "Telefone Já existente");
 
         this.usuarioRepository.save(usuario);
     }
@@ -38,7 +38,7 @@ public class UsuarioService {
         Assert.isTrue(!usuario.getNomeUsuario().equals(""), "Nome de usuário não pode ser nulo");
         Assert.isTrue(usuario.getNomeUsuario().length() <= 100, "Nome de usuário acima do limite de caracteres");
 
-        Assert.isTrue(!usuario.getTelefone().equals(""), "CPF não pode ser nulo");
+        Assert.isTrue(!usuario.getTelefone().equals(""), "Telefone não pode ser nulo");
 
         final UsuarioEntity usuario1 = this.usuarioRepository.findById(id).orElse(null);
 

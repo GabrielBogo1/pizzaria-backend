@@ -23,4 +23,10 @@ public class UsuarioDTO {
     public UsuarioDTO(String nomeUsuario) {
         this.nomeUsuario = nomeUsuario;
     }
+
+    public UsuarioDTO(Long id , String nomeUsuario) {
+        this.id = id;
+        this.nomeUsuario = nomeUsuario;
+    }
+
 }

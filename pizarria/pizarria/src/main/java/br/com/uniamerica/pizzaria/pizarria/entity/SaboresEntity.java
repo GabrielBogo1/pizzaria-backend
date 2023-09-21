@@ -22,4 +22,9 @@ public class SaboresEntity {
         this.id = id;
         this.nomeSabor = nomeSabor;
     }
+
+    public SaboresEntity(SaboresEntity sabor) {
+        this.id = sabor.getId();
+        this.nomeSabor = sabor.getNomeSabor();
+    }
 }

@@ -24,6 +24,11 @@ public class UsuarioEntity {
         this.enderecos = enderecos;
     }
 
+    public UsuarioEntity(Long id, String nomeUsuario) {
+        this.id = id;
+        this.nomeUsuario = nomeUsuario;
+    }
+
     @Column (name = "nome_usuario")
     private String nomeUsuario;
 

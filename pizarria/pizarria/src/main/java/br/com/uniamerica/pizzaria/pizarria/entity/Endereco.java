@@ -29,9 +29,23 @@ public class Endereco {
     @Column (name = "observ")
     private String observ;
 
+    @Setter
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuario;
+
 
 
     public Endereco (){}
+
+    public Endereco(Endereco endereco) {
+        this.id = endereco.getId();
+        this.rua = endereco.getRua();
+        this.bairro = endereco.getBairro();
+        this.numCasa = endereco.getNumCasa();
+        this.cep = endereco.getCep();
+        this.observ = endereco.getObserv();
+    }
     public Endereco(Long id, String rua, String bairro, int numCasa, String cep, String observ) {
         this.id = id;
         this.rua = rua;
@@ -40,4 +54,5 @@ public class Endereco {
         this.cep = cep;
         this.observ = observ;
     }
+
 }
