@@ -57,6 +57,14 @@ public class PedidoEntity {
     @Column (name = "dataPedido")
     private LocalDateTime dataPedido;
 
+    private float preco;
+
+    private boolean cancelado;
+
+    @Column(name = "dtCadastro")
+    private LocalDateTime cadastro;
+
+    private boolean entrega;
 
     public PedidoEntity (){}
 
@@ -76,6 +84,36 @@ public class PedidoEntity {
         this.dataPedido = dataPedido;
     }
 
+    public PedidoEntity(String observacoes, UsuarioEntity cliente, float preco, Status status, List<PizzaEntity> pizzas, List<ProdutosEntity> produtos, boolean entrega, boolean delivery, boolean cancelado, boolean pagamentoCartao, LocalDateTime cadastro, FuncionarioEntity funcionario) {
+        this.observacao = observacoes;
+        this.usuario = cliente;
+        this.pedidoPreco = preco;
+        this.status = status;
+        this.pizzas = pizzas;
+        this.produtos = produtos;
+        this.entrega = entrega;
+        this.delivery = delivery;
+        this.cancelado = cancelado;
+        this.pagamentoCartao = pagamentoCartao;
+        this.cadastro = cadastro;
+        this.funcionario = funcionario;
+    }
+
+    public PedidoEntity(Long id,String observacoes, UsuarioEntity cliente, float preco, Status status, List<PizzaEntity> pizzas, List<ProdutosEntity> produtos, boolean entrega, boolean delivery, boolean cancelado, boolean pagamentoCartao, LocalDateTime cadastro, FuncionarioEntity funcionario) {
+        this.id = id;
+        this.observacao = observacoes;
+        this.usuario = cliente;
+        this.preco= preco;
+        this.status = status;
+        this.pizzas = pizzas;
+        this.produtos = produtos;
+        this.entregue = entrega;
+        this.delivery = delivery;
+        this.cancelado = cancelado;
+        this.pagamentoCartao = pagamentoCartao;
+        this.cadastro = cadastro;
+        this.funcionario = funcionario;
+    }
     @PrePersist
     private void prePersist(){
         this.dataPedido = LocalDateTime.now();

@@ -1,8 +1,8 @@
 package br.com.uniamerica.pizzaria.pizarria.controller;
 
 import br.com.uniamerica.pizzaria.pizarria.dto.PedidoDTO;
-import br.com.uniamerica.pizzaria.pizarria.dto.RelatorioDiaDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.PedidoEntity;
+import br.com.uniamerica.pizzaria.pizarria.entity.Status;
 import br.com.uniamerica.pizzaria.pizarria.repository.PedidoRepository;
 import br.com.uniamerica.pizzaria.pizarria.service.PedidosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/pedido")
@@ -22,6 +25,11 @@ public class PedidoController {
 
     @Autowired
     private PedidosService pedidoService;
+
+    public PedidoController(PedidoRepository pedidoRepository) {
+        this.pedidoRepository = pedidoRepository;
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<PedidoEntity> findByIdPath(@PathVariable("id") final Long id) {
@@ -34,43 +42,66 @@ public class PedidoController {
         return ResponseEntity.ok(this.pedidoRepository.findAll());
     }
 
-
-
-//    localhost:8080/api/pedido/totaldia?data=2023-09-18
-    @GetMapping("/totaldia")
-    public RelatorioDiaDTO getTotalPedidosPorData(@RequestParam("data") LocalDate data) {
-        Long totalPedidos = pedidoService.totalPedidosPorData(data);
-        Long totalPedidosCartao = pedidoService.totalPagamentoCartao(data);
-        Long totalPedidosDinheiro = pedidoService.totalPagamentoDinheiro(data);
-        Long totalPedidosDelivery = pedidoService.totalPedidosDelivery(data);
-        Long totalPedidosBalcao = pedidoService.totalPedidosBalcao(data);
-        Long totalPedidosPagos = pedidoService.totalPagos(data);
-        Long totalPedidosCancelados = pedidoService.totalCancelados(data);
-
-        RelatorioDiaDTO relatorioDiaDTO = new RelatorioDiaDTO();
-        relatorioDiaDTO.setTotalPedidos(totalPedidos);
-        relatorioDiaDTO.setTotalPedidosCartao(totalPedidosCartao);
-        relatorioDiaDTO.setTotalPedidosDinheiro(totalPedidosDinheiro);
-        relatorioDiaDTO.setTotalPedidosDelivery(totalPedidosDelivery);
-        relatorioDiaDTO.setTotalPedidosBalcao(totalPedidosBalcao);
-        relatorioDiaDTO.setTotalPedidosPagos(totalPedidosPagos);
-        relatorioDiaDTO.setTotalPedidosCancelados(totalPedidosCancelados);
-
-
-        return relatorioDiaDTO;
+    @GetMapping("/solicitados")
+    public ResponseEntity<List<PedidoEntity>> solicitados() {
+        List<PedidoEntity> pedidosAndamento = this.pedidoRepository.findByStatus(Status.ANDAMENTO);
+        return ResponseEntity.ok(pedidosAndamento);
     }
 
-    @GetMapping ("/comandacozinha/{id}")
-    public ResponseEntity <String> comandaCozinha (@PathVariable ("id") Long id){
-        try {
-            PedidoEntity pedido = pedidoService.findPedidoById(id);
-            pedidoService.gerarComandaCozinha(pedido);
-            return ResponseEntity.ok("comanda gerada com sucesso");
-        }catch (Exception e){
-            String errorMessage = getErrorMessage(e);
-            return ResponseEntity.internalServerError().body(errorMessage);
+
+    @GetMapping("/pedidosDoDia")
+    public List<PedidoEntity> getPedidosDoDia() {
+        LocalDate dataAtual = LocalDate.now();
+
+        LocalDateTime inicioDoDia = dataAtual.atStartOfDay();
+        LocalDateTime fimDoDia = dataAtual.atTime(23, 59, 59);
+
+        return pedidoRepository.findByCadastroBetween(inicioDoDia, fimDoDia);
+    }
+
+    @GetMapping("/pedidosEncerradosDoDia")
+    public List<PedidoEntity> getPedidosEncerradosDoDia() {
+        LocalDate dataAtual = LocalDate.now();
+
+        LocalDateTime inicioDoDia = dataAtual.atStartOfDay();
+        LocalDateTime fimDoDia = dataAtual.atTime(23, 59, 59);
+
+        return pedidoRepository.findByStatusAndCadastroBetween(
+                Status.ENTREGUE, inicioDoDia, fimDoDia
+        );
+    }
+
+    @GetMapping("/pedidosCanceladosDoDia")
+    public List<PedidoEntity> getPedidosCanceladosDoDia() {
+        LocalDate dataAtual = LocalDate.now();
+
+        return pedidoRepository.findByCanceladoAndCadastroBetween(true, dataAtual.atStartOfDay(), dataAtual.atTime(23, 59, 59));
+    }
+
+
+    @GetMapping("/delivery/{ativo}")
+    public ResponseEntity<Map<String, Long>> delivery(@PathVariable("ativo") boolean delivery) {
+        List<PedidoEntity> pedidos;
+        if (!delivery) {
+            pedidos = pedidoRepository.findByDelivery(false);
+        } else {
+            pedidos = pedidoRepository.findByDelivery(true);
         }
+
+        long entregasPorDelivery = pedidos.stream()
+                .filter(pedido -> pedido.isDelivery())
+                .count();
+
+        long entregasPorBalcao = pedidos.size() - entregasPorDelivery;
+
+        Map<String, Long> resultado = new HashMap<>();
+        resultado.put("entregasPorDelivery", entregasPorDelivery);
+        resultado.put("entregasPorBalcao", entregasPorBalcao);
+
+        return ResponseEntity.ok(resultado);
+
     }
+
 
     @GetMapping ("/comandaentregue/{id}")
     public ResponseEntity <String> comandaEntrega (@PathVariable ("id") Long id){
@@ -85,7 +116,7 @@ public class PedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<String> cadastrarPedido (@RequestBody final PedidoDTO pedido, final Long id) {
+    public ResponseEntity<String> cadastrarPedido (@RequestBody final PedidoDTO pedido) {
         try {
             this.pedidoService.validaPedido(pedido);
             return ResponseEntity.ok("Pedido realizado com sucesso.");

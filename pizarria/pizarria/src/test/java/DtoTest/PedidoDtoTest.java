@@ -21,7 +21,8 @@ class PedidoDtoTest {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS");
     String dataString = "2023-09-21T02:03:38.724796100";
     LocalDateTime dataManual = LocalDateTime.parse(dataString, formatter);
-    PedidoDTO pedido = new PedidoDTO(1L, funcionario, usuario,"Sem cebola",40, Status.ANDAMENTO,false,pizzaList,true,false,true,true, produtoList, dataManual);
+    PedidoDTO pedido = new PedidoDTO("nada",usuario,20,Status.ANDAMENTO,pizzaList,produtoList,true,
+            false,false,false,LocalDateTime.now(),funcionario);
     PedidoDTO pedidoVazio = new PedidoDTO();
 
 
@@ -83,7 +84,10 @@ class PedidoDtoTest {
 
     @Test
     void testComparacao(){
-        PedidoDTO pedido2 = new PedidoDTO(1L, funcionario, usuario,"Sem cebola",40, Status.ANDAMENTO,false,pizzaList,true,false,true,true, produtoList, dataManual);
+        UsuarioEntity usuario = new UsuarioEntity(1L, "teste");
+        FuncionarioEntity funcionario = new FuncionarioEntity(1L, "TesteFun");
+        PedidoDTO pedido2 = new PedidoDTO("nada",usuario,20,Status.ANDAMENTO,pizzaList,produtoList,true,
+                false,false,false,LocalDateTime.now(),funcionario);
         Assertions.assertEquals(pedido, pedido2);
     }
 }

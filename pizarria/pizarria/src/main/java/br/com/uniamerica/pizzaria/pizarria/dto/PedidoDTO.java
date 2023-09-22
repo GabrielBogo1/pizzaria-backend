@@ -36,9 +36,7 @@ public class PedidoDTO {
 
     private LocalDate dataPedido;
 
-    private LocalDateTime pedidoData;
 
-    public PedidoDTO (){}
 
     /**
      * Construtor para criar uma instância de PedidoDTO com 14 parâmetros.
@@ -60,37 +58,55 @@ public class PedidoDTO {
      */
 
     @SuppressWarnings("java:S107")
-    public PedidoDTO(Long id, FuncionarioEntity funcionario, UsuarioEntity usuario, String observacao, float pedidoPreco, Status status, boolean delivery, List<PizzaEntity> pizzas, boolean cancelado, boolean pagamentoCartao, boolean pagamentoDinheiro, boolean entrega, List<ProdutosEntity> produtos, LocalDate dataPedido) {
-        this.id = id;
-        this.funcionario = funcionario;
-        this.usuario = usuario;
-        this.observacao = observacao;
-        this.pedidoPreco = pedidoPreco;
-        this.status = status;
-        this.delivery = delivery;
-        this.pizzas = pizzas;
-        this.cancelado = cancelado;
-        this.pagamentoCartao = pagamentoCartao;
-        this.pagamentoDinheiro = pagamentoDinheiro;
-        this.entrega = entrega;
-        this.produtos = produtos;
-        this.dataPedido = dataPedido;
-    }
+//    public PedidoDTO(Long id, FuncionarioEntity funcionario, UsuarioEntity usuario, String observacao, float pedidoPreco, Status status, boolean delivery, List<PizzaEntity> pizzas, boolean cancelado, boolean pagamentoCartao, boolean pagamentoDinheiro, boolean entrega, List<ProdutosEntity> produtos, LocalDate dataPedido) {
+//        this.id = id;
+//        this.funcionario = funcionario;
+//        this.usuario = usuario;
+//        this.observacao = observacao;
+//        this.pedidoPreco = pedidoPreco;
+//        this.status = status;
+//        this.delivery = delivery;
+//        this.pizzas = pizzas;
+//        this.cancelado = cancelado;
+//        this.pagamentoCartao = pagamentoCartao;
+//        this.pagamentoDinheiro = pagamentoDinheiro;
+//        this.entrega = entrega;
+//        this.produtos = produtos;
+//        this.dataPedido = dataPedido;
+//    }
+
+    private LocalDateTime cadastro;
 
     @SuppressWarnings("java:S107")
-    public PedidoDTO(long id, FuncionarioEntity funcionario, UsuarioEntity usuario, String semCebola, int pedidoPreco, Status status, boolean delivery, List<PizzaEntity> pizzaList, boolean cancelado, boolean pagamentoCartao, boolean pagamentoDinheiro, boolean entrega, List<ProdutosEntity> produtoList, LocalDateTime dataManual) {
-        this.id = id;
-        this.funcionario = funcionario;
-        this.usuario = usuario;
-        this.pedidoPreco = pedidoPreco;
+//    public PedidoDTO(long id, FuncionarioEntity funcionario, UsuarioEntity usuario, String semCebola, int pedidoPreco, Status status, boolean delivery, List<PizzaEntity> pizzaList, boolean cancelado, boolean pagamentoCartao, boolean pagamentoDinheiro, boolean entrega, List<ProdutosEntity> produtoList, LocalDateTime dataManual) {
+//        this.id = id;
+//        this.funcionario = funcionario;
+//        this.usuario = usuario;
+//        this.pedidoPreco = pedidoPreco;
+//        this.status = status;
+//        this.delivery = delivery;
+//        this.pizzas = pizzaList;
+//        this.cancelado = cancelado;
+//        this.pagamentoCartao = pagamentoCartao;
+//        this.pagamentoDinheiro = pagamentoDinheiro;
+//        this.entrega = entrega;
+//        this.produtos = produtoList;
+//        this.pedidoData = dataManual;
+//    }
+    public PedidoDTO (){}
+
+    public PedidoDTO(String observacoes, UsuarioEntity cliente, float preco, Status status, List<PizzaEntity> pizzas, List<ProdutosEntity> produtos, boolean entrega, boolean delivery, boolean cancelado, boolean pagamentoCartao, LocalDateTime cadastro, FuncionarioEntity funcionario) {
+        this.observacao = observacoes;
+        this.usuario = cliente;
+        this.pedidoPreco = preco;
         this.status = status;
+        this.pizzas = pizzas;
+        this.produtos = produtos;
+        this.entrega = entrega;
         this.delivery = delivery;
-        this.pizzas = pizzaList;
         this.cancelado = cancelado;
         this.pagamentoCartao = pagamentoCartao;
-        this.pagamentoDinheiro = pagamentoDinheiro;
-        this.entrega = entrega;
-        this.produtos = produtoList;
-        this.pedidoData = dataManual;
+        this.cadastro = cadastro;
+        this.funcionario = funcionario;
     }
 }

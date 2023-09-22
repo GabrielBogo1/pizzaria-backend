@@ -46,4 +46,9 @@ public class TestConfig {
     public ProdutosRepository produtosRepository() {
         return Mockito.mock(ProdutosRepository.class);
     }
+
+    @Bean
+    public PedidoRepository pedidoRepository() {
+        return Mockito.mock(PedidoRepository.class);
+    }
 }
