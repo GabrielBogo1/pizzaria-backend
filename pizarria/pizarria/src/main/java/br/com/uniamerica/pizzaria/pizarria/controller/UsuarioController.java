@@ -1,8 +1,10 @@
 package br.com.uniamerica.pizzaria.pizarria.controller;
 
 
+import br.com.uniamerica.pizzaria.pizarria.dto.LoginDTO;
 import br.com.uniamerica.pizzaria.pizarria.dto.UsuarioDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.UsuarioEntity;
+import br.com.uniamerica.pizzaria.pizarria.payload.response.LoginMessage;
 import br.com.uniamerica.pizzaria.pizarria.repository.UsuarioRepository;
 import br.com.uniamerica.pizzaria.pizarria.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/usuario")
+@CrossOrigin
 public class UsuarioController {
 
     @Autowired
@@ -43,6 +46,12 @@ public class UsuarioController {
             return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
+
+//    @PostMapping (path = "/login")
+//    public ResponseEntity <LoginMessage> loginUsuario (@RequestBody LoginDTO loginDTO){
+//        LoginMessage loginMessage = usuarioService.loginUsuario (loginDTO);
+//        return ResponseEntity.ok(loginMessage);
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> editarUsuario (@PathVariable("id") final Long id, @RequestBody final UsuarioEntity usuario) {

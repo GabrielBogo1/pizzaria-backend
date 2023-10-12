@@ -3,8 +3,10 @@ package br.com.uniamerica.pizzaria.pizarria.controller;
 import br.com.uniamerica.pizzaria.pizarria.dto.FuncionarioDTO;
 import br.com.uniamerica.pizzaria.pizarria.dto.LoginDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.FuncionarioEntity;
+import br.com.uniamerica.pizzaria.pizarria.payload.response.LoginMessage;
 import br.com.uniamerica.pizzaria.pizarria.repository.FuncionarioRepository;
 import br.com.uniamerica.pizzaria.pizarria.service.FuncionarioService;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/funcionario")
 public class FuncionarioController {
 
@@ -43,11 +46,6 @@ public class FuncionarioController {
             return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
-
-//    @PostMapping (path = "/login")
-//    public ResponseEntity <String> loginFuncionario (@RequestBody LoginDTO loginDTO){
-//
-//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> editarFuncionario (@PathVariable("id") final Long id, @RequestBody final FuncionarioEntity funcionario) {

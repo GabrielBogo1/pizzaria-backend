@@ -1,19 +1,27 @@
 package br.com.uniamerica.pizzaria.pizarria.service;
 
+import br.com.uniamerica.pizzaria.pizarria.dto.LoginDTO;
 import br.com.uniamerica.pizzaria.pizarria.dto.UsuarioDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.UsuarioEntity;
+import br.com.uniamerica.pizzaria.pizarria.payload.response.LoginMessage;
 import br.com.uniamerica.pizzaria.pizarria.repository.UsuarioRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional(rollbackFor = Exception.class)
     public void validaUsuario (final UsuarioDTO usuarioDTO){
@@ -29,6 +37,10 @@ public class UsuarioService {
         UsuarioEntity usuario1 = usuarioRepository.findByTelefone(usuario.getTelefone());
 
         Assert.isTrue(usuario1 == null || usuario1.equals(usuario1.getTelefone()), "Telefone Já existente");
+
+        String senhaEncriptada = passwordEncoder.encode(usuario.getSenha());
+
+        usuario.setSenha(senhaEncriptada);
 
         this.usuarioRepository.save(usuario);
     }
@@ -48,6 +60,28 @@ public class UsuarioService {
 
 
         this.usuarioRepository.save(usuario);
+    }
+
+    public LoginMessage loginUsuario(LoginDTO loginDTO) {
+        UsuarioEntity usuario1 = usuarioRepository.findByEmail(loginDTO.getEmail());
+        if (usuario1 != null) {
+            String senhaLogin = loginDTO.getSenha();
+            String senhaEncriptada = usuario1.getSenha();
+
+            boolean validaSenha = passwordEncoder.matches(senhaLogin, senhaEncriptada);
+            if (validaSenha) {
+                Optional<UsuarioEntity> usuario = usuarioRepository.findOneByEmailAndSenha(loginDTO.getEmail(), senhaEncriptada);
+                if (usuario.isPresent()) {
+                    return new LoginMessage("Login realizado com sucesso", false);
+                } else {
+                    return new LoginMessage("Erro ao efetuar login");
+                }
+            } else {
+                return new LoginMessage("Senha inválida");
+            }
+        }else {
+            return new LoginMessage("Email inválido");
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)

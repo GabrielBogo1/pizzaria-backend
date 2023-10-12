@@ -1,19 +1,32 @@
 package br.com.uniamerica.pizzaria.pizarria.service;
 
 import br.com.uniamerica.pizzaria.pizarria.dto.FuncionarioDTO;
+import br.com.uniamerica.pizzaria.pizarria.dto.LoginDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.FuncionarioEntity;
+import br.com.uniamerica.pizzaria.pizarria.entity.UsuarioEntity;
+import br.com.uniamerica.pizzaria.pizarria.payload.response.LoginMessage;
 import br.com.uniamerica.pizzaria.pizarria.repository.FuncionarioRepository;
+import br.com.uniamerica.pizzaria.pizarria.repository.UsuarioRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
+import java.util.Optional;
 
 @Service
 public class FuncionarioService {
 
     @Autowired
     private FuncionarioRepository funcionarioRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional(rollbackFor = Exception.class)
     public void validaFuncionario (final FuncionarioDTO funcionarioDTO){
@@ -23,6 +36,9 @@ public class FuncionarioService {
 
         Assert.isTrue(!funcionario.getNomeFuncionario().equals(""), "Nome do funcionário não pode ser nulo");
         Assert.isTrue(funcionario.getNomeFuncionario().length() <= 100, "Nome excede o limite de caracteres");
+
+        String senhaCodificada = this.passwordEncoder.encode(funcionario.getSenha());
+        funcionario.setSenha(senhaCodificada);
 
         this.funcionarioRepository.save(funcionario);
     }
@@ -53,6 +69,7 @@ public class FuncionarioService {
 
         this.funcionarioRepository.delete(funcionario1);
     }
+
     public static class RegistroNaoEncontradoException extends RuntimeException {
         public RegistroNaoEncontradoException(String message) {
             super(message);

@@ -3,6 +3,6 @@ package br.com.uniamerica.pizzaria.pizarria.repository;
 import br.com.uniamerica.pizzaria.pizarria.entity.Login;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LoginRepository extends JpaRepository <Login, Long> {
-    Login findByLoginUsuario (String loginNome);
-}
+//public interface LoginRepository extends JpaRepository <Login, Long> {
+//    Login findByLoginUsuario (String loginNome);
+//}
