@@ -1,6 +1,7 @@
 package br.com.uniamerica.pizzaria.pizarria.controller;
 
 import br.com.uniamerica.pizzaria.pizarria.dto.FuncionarioDTO;
+import br.com.uniamerica.pizzaria.pizarria.dto.LoginDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.FuncionarioEntity;
 import br.com.uniamerica.pizzaria.pizarria.repository.FuncionarioRepository;
 import br.com.uniamerica.pizzaria.pizarria.service.FuncionarioService;
@@ -42,6 +43,11 @@ public class FuncionarioController {
             return ResponseEntity.internalServerError().body(errorMessage);
         }
     }
+
+//    @PostMapping (path = "/login")
+//    public ResponseEntity <String> loginFuncionario (@RequestBody LoginDTO loginDTO){
+//
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> editarFuncionario (@PathVariable("id") final Long id, @RequestBody final FuncionarioEntity funcionario) {

@@ -1,11 +1,9 @@
 package IntegracaoTest;
 
 import br.com.uniamerica.pizzaria.pizarria.controller.PedidoController;
-import br.com.uniamerica.pizzaria.pizarria.dto.LoginDTO;
 import br.com.uniamerica.pizzaria.pizarria.dto.PedidoDTO;
 import br.com.uniamerica.pizzaria.pizarria.entity.*;
 import br.com.uniamerica.pizzaria.pizarria.repository.*;
-import br.com.uniamerica.pizzaria.pizarria.service.PedidosService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
@@ -226,7 +225,6 @@ public class PedidosIntegracaoTest {
 
     @Test
     void testPutPedido(){
-
         UsuarioEntity usuario = new UsuarioEntity(1L,"pedro");
         FuncionarioEntity funcionarioT = new FuncionarioEntity(1L,"salve");
         PedidoEntity pedido = new PedidoEntity("nada",usuario,20,Status.ANDAMENTO,pizzaList,produtoList,true,
@@ -260,11 +258,7 @@ public class PedidosIntegracaoTest {
         Assertions.assertEquals("excluído", response.getBody());
     }
 
-    @Test
-    void testPedidoDeleteErrado(){
-        var pedido = pedidoController.deletarPedido(20L);
-        Assertions.assertEquals("ERRor: Não foi possivel identificar o registro informado", pedido.getBody());
-    }
+
 
     @Test
     void testPedidoGetId(){

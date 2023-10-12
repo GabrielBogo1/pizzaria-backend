@@ -16,6 +16,11 @@ public class FuncionarioEntity {
     @Column(name = "nome_funcionario")
     private String nomeFuncionario;
 
+    @Column (name = "email")
+    private String email;
+
+    @Column (name = "senha")
+    private String senha;
     public FuncionarioEntity (){}
 
     public FuncionarioEntity (FuncionarioEntity funcionario){
